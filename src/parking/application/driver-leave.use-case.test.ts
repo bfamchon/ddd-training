@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+import { EventBus } from '@nestjs/cqrs';
 import { DriverParkEndUseCase } from 'src/parking/application/driver-leave.use-case';
 import { ParkingAlreadyEndedError } from 'src/parking/domain/errors/parking-already-ended.error';
 import { ParkingNotFoundError } from 'src/parking/domain/errors/parking-not-found.error';
@@ -5,14 +7,26 @@ import { Parking } from 'src/parking/domain/Parking';
 import { ParkingRepositoryInMemory } from 'src/parking/infrastructure/parking-repository.in-memory';
 import { ParkingRepository } from 'src/parking/infrastructure/parking-repository.port';
 import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { TestApp } from 'src/test/utils/test-app';
 
 describe('Feature : User leave parking', () => {
   let useCase: DriverParkEndUseCase;
   let parkingRepository: ParkingRepository;
+  let app: TestApp;
+  let eventBus: EventBus;
 
-  beforeEach(() => {
-    parkingRepository = new ParkingRepositoryInMemory();
+  beforeEach(async () => {
+    app = new TestApp();
+    await app.setup();
+    eventBus = app.get<EventBus>(EventBus);
+    // Mock the event bus
+    jest.spyOn(eventBus, 'publish').mockImplementation(() => undefined);
+    parkingRepository = new ParkingRepositoryInMemory(eventBus);
     useCase = new DriverParkEndUseCase(parkingRepository);
+  });
+
+  afterAll(async () => {
+    await app.cleanup();
   });
   it('should save end date of parking session', async () => {
     await parkingRepository.save(
@@ -33,6 +47,16 @@ describe('Feature : User leave parking', () => {
     }
     const parking = await parkingRepository.findById(payload.parkingId);
     expect(parking?.props.timerEndDateTime).not.toBeNull();
+    expect(eventBus.publish).toHaveBeenCalledTimes(1);
+    expect(eventBus.publish).toHaveBeenCalledWith(
+      expect.objectContaining({
+        parkingId: parking?.props.id.toString(),
+        driverId: parking?.props.driverId.toString(),
+        occurredOn: parking?.props.timerEndDateTime,
+        zoneId: parking?.props.zoneId.toString(),
+        eventName: 'DriverEndParking',
+      }),
+    );
   });
   it('should return parking not found error', async () => {
     const payload = {

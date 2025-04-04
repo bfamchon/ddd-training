@@ -6,7 +6,7 @@ type PriceProps = {
 };
 
 export class Price extends ValueObject<PriceProps> {
-  constructor(props: PriceProps) {
+  private constructor(props: PriceProps) {
     super(props);
   }
 

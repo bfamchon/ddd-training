@@ -7,8 +7,15 @@ export class DriverEndParking implements IDomainEvent {
   public readonly driverId: string;
   public readonly parkingId: string;
   public readonly zoneId: string;
+  public readonly sessionDuration: number;
 
-  constructor(driverId: string, zoneId: string, parkingId: string) {
+  constructor(
+    driverId: string,
+    zoneId: string,
+    parkingId: string,
+    sessionDuration: number,
+  ) {
+    this.sessionDuration = sessionDuration;
     this.occurredOn = new Date();
     this.driverId = driverId;
     this.parkingId = parkingId;

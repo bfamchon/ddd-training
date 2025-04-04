@@ -10,4 +10,12 @@ type BillingLineProps = {
   zone: Zone;
 };
 
-export class BillingLine extends Entity<BillingLineProps> {}
+export class BillingLine extends Entity<BillingLineProps> {
+  private constructor(billingLine: BillingLineProps) {
+    super(billingLine);
+  }
+
+  public static create(billingLine: BillingLineProps): BillingLine {
+    return new BillingLine(billingLine);
+  }
+}

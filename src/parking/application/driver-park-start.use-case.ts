@@ -21,9 +21,10 @@ export class DriverParkUseCase {
   ) {}
 
   async execute({ driverId, zoneCoordinates }: Request): Promise<Response> {
-    const zone = await this.parkingZoneRepository.findClosestZoneByCoordinates(
-      zoneCoordinates,
-    );
+    const zone =
+      await this.parkingZoneRepository.findClosestZoneByCoordinates(
+        zoneCoordinates,
+      );
     if (!zone) {
       return Err.of(new ZoneNotFoundError());
     }

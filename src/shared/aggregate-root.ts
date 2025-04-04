@@ -9,12 +9,15 @@ export abstract class AggregateRoot<T> extends Entity<T> {
   }
 
   protected addDomainEvent(domainEvent: IDomainEvent): void {
+    this._domainEvents.push(domainEvent);
     this.logDomainEventAdded(domainEvent);
   }
 
-  public clearEvents(): void {}
+  public clearEvents(): void {
+    this._domainEvents = [];
+  }
 
   private logDomainEventAdded(domainEvent: IDomainEvent): void {
-    console.info(`[Domain Event Created]`);
+    console.info(`[Domain Event Created]: ${domainEvent.eventName}`);
   }
 }

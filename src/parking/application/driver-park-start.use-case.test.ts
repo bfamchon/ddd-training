@@ -1,3 +1,4 @@
+import { EventBus } from '@nestjs/cqrs';
 import { DriverParkUseCase } from 'src/parking/application/driver-park-start.use-case';
 import { ZoneNotFoundError } from 'src/parking/domain/errors/zone-not-found.error';
 import { Zone } from 'src/parking/domain/Zone';
@@ -10,18 +11,27 @@ import {
   IDGenerator,
   UniqueEntityID,
 } from 'src/shared/unique-entity-id';
+import { TestApp } from 'src/test/utils/test-app';
 
 describe('Feature : User park its car', () => {
   let useCase: DriverParkUseCase;
   let parkingRepository: ParkingRepository;
   let parkingZoneRepository: ParkingZoneRepositoryInMemory;
   let idGenerator: IDGenerator;
+  let app: TestApp;
+  let eventBus: EventBus;
 
-  beforeEach(() => {
-    parkingRepository = new ParkingRepositoryInMemory();
+  beforeEach(async () => {
+    app = new TestApp();
+    await app.setup();
+    eventBus = app.get<EventBus>(EventBus);
+    // Mock the event bus
+    jest.spyOn(eventBus, 'publish').mockImplementation(() => undefined);
+
+    parkingRepository = new ParkingRepositoryInMemory(eventBus);
     parkingZoneRepository = new ParkingZoneRepositoryInMemory();
     idGenerator = new FakeIDGenerator();
-    parkingZoneRepository.save(
+    await parkingZoneRepository.save(
       Zone.create({
         id: new UniqueEntityID('zone-id'),
         coordinates: ZoneCoordinates.create({ latitude: 1, longitude: 1 }),
