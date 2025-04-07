@@ -12,10 +12,23 @@ import { BillingRepositoryInMemory } from 'src/billing/infrastructure/billing-re
 import { BILLING_REPOSITORY } from 'src/billing/infrastructure/billing-repository.port';
 import { BillingZoneRepositoryInMemory } from 'src/billing/infrastructure/billing-zone-repository.in-memory';
 import { BILLING_ZONE_REPOSITORY } from 'src/billing/infrastructure/billing-zone-repository.port';
+import {
+  CRON_SERVICE,
+  CronService,
+} from 'src/billing/infrastructure/cron.service';
+import { CustomerRepositoryInMemory } from 'src/billing/infrastructure/customer-repository.in-memory';
+import { CUSTOMER_REPOSITORY } from 'src/billing/infrastructure/customer-repository.port';
+import { EmailServiceFake } from 'src/billing/infrastructure/email-service.fake';
+import { EMAIL_SERVICE } from 'src/billing/infrastructure/email-service.port';
 
 @Module({
   imports: [CqrsModule],
   providers: [
+    {
+      provide: CRON_SERVICE,
+      inject: [I_BILLING_SERVICE],
+      useFactory: (billingService) => new CronService(billingService),
+    },
     {
       provide: DRIVER_END_PARKING_HANDLER,
       inject: [I_BILLING_SERVICE],
@@ -24,9 +37,24 @@ import { BILLING_ZONE_REPOSITORY } from 'src/billing/infrastructure/billing-zone
     },
     {
       provide: I_BILLING_SERVICE,
-      inject: [BILLING_ZONE_REPOSITORY, BILLING_REPOSITORY],
-      useFactory: (billingZoneRepository, billingRepository) =>
-        new BillingService(billingZoneRepository, billingRepository),
+      inject: [
+        BILLING_ZONE_REPOSITORY,
+        BILLING_REPOSITORY,
+        CUSTOMER_REPOSITORY,
+        EMAIL_SERVICE,
+      ],
+      useFactory: (
+        billingZoneRepository,
+        billingRepository,
+        customerRepository,
+        emailService,
+      ) =>
+        new BillingService(
+          billingZoneRepository,
+          billingRepository,
+          customerRepository,
+          emailService,
+        ),
     },
     {
       provide: BILLING_ZONE_REPOSITORY,
@@ -35,6 +63,14 @@ import { BILLING_ZONE_REPOSITORY } from 'src/billing/infrastructure/billing-zone
     {
       provide: BILLING_REPOSITORY,
       useClass: BillingRepositoryInMemory,
+    },
+    {
+      provide: CUSTOMER_REPOSITORY,
+      useClass: CustomerRepositoryInMemory,
+    },
+    {
+      provide: EMAIL_SERVICE,
+      useClass: EmailServiceFake,
     },
   ],
 })

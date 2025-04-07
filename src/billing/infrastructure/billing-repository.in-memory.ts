@@ -17,4 +17,18 @@ export class BillingRepositoryInMemory implements BillingRepository {
     this.billings.push(billing);
     return Promise.resolve();
   }
+  findAllBetween({
+    start,
+    end,
+  }: {
+    start: Date;
+    end: Date;
+  }): Promise<Billing[]> {
+    const billings = this.billings.filter(
+      (billing) =>
+        billing.props.billingLines[0].props.date >= start &&
+        billing.props.billingLines[0].props.date <= end,
+    );
+    return Promise.resolve(billings);
+  }
 }
