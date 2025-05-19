@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { EventBus } from '@nestjs/cqrs';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 import { DriverParkEndUseCase } from 'src/parking/application/driver-leave.use-case';
 import { ParkingAlreadyEndedError } from 'src/parking/domain/errors/parking-already-ended.error';
 import { ParkingNotFoundError } from 'src/parking/domain/errors/parking-not-found.error';
 import { Parking } from 'src/parking/domain/Parking';
 import { ParkingRepositoryInMemory } from 'src/parking/infrastructure/parking-repository.in-memory';
 import { ParkingRepository } from 'src/parking/infrastructure/parking-repository.port';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
 import { TestApp } from 'src/test/utils/test-app';
 
 describe('Feature : User leave parking', () => {

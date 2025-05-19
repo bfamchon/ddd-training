@@ -1,5 +1,5 @@
 import { Zone } from 'src/billing/domain/Zone';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 export const BILLING_ZONE_REPOSITORY = 'BILLING_ZONE_REPOSITORY';
 

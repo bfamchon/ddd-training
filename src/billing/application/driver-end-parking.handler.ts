@@ -1,6 +1,6 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { BillingService } from 'src/billing/application/billing.service';
-import { DriverEndParking } from 'src/parking/domain/events/DriverEndParking';
+import { BillingService } from 'src/billing/application/billing-service';
+import { DriverEndParking } from 'src/libs/shared-kernel/v1/events/DriverEndParking';
 export const DRIVER_END_PARKING_HANDLER = 'DRIVER_END_PARKING_HANDLER';
 @EventsHandler(DriverEndParking)
 export class DriverEndParkingHandler

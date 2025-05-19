@@ -1,10 +1,18 @@
 import { Billing } from 'src/billing/domain/Billing';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 export const BILLING_REPOSITORY = 'BILLING_REPOSITORY';
 
+export type BillingRange = {
+  start: Date;
+  end: Date;
+};
+
 export interface BillingRepository {
-  findByCustomerId(id: UniqueEntityID): Promise<Billing | null>;
+  findByCustomerId(
+    id: UniqueEntityID,
+    range: BillingRange,
+  ): Promise<Billing | null>;
   create(billing: Billing): Promise<void>;
   findAllBetween({
     start,
@@ -13,4 +21,6 @@ export interface BillingRepository {
     start: Date;
     end: Date;
   }): Promise<Billing[]>;
+  findById(id: UniqueEntityID): Promise<Billing | null>;
+  save(billing: Billing): Promise<void>;
 }

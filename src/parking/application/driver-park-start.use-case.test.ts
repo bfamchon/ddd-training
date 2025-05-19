@@ -1,4 +1,9 @@
 import { EventBus } from '@nestjs/cqrs';
+import {
+  FakeIDGenerator,
+  IDGenerator,
+  UniqueEntityID,
+} from 'src/libs/shared-kernel/unique-entity-id';
 import { DriverParkUseCase } from 'src/parking/application/driver-park-start.use-case';
 import { ZoneNotFoundError } from 'src/parking/domain/errors/zone-not-found.error';
 import { Zone } from 'src/parking/domain/Zone';
@@ -6,11 +11,6 @@ import { ZoneCoordinates } from 'src/parking/domain/ZoneCoordinates';
 import { ParkingRepositoryInMemory } from 'src/parking/infrastructure/parking-repository.in-memory';
 import { ParkingRepository } from 'src/parking/infrastructure/parking-repository.port';
 import { ParkingZoneRepositoryInMemory } from 'src/parking/infrastructure/parking-zone-repository.in-memory';
-import {
-  FakeIDGenerator,
-  IDGenerator,
-  UniqueEntityID,
-} from 'src/shared/unique-entity-id';
 import { TestApp } from 'src/test/utils/test-app';
 
 describe('Feature : User park its car', () => {

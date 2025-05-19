@@ -1,5 +1,5 @@
-import { IDomainEvent } from 'src/shared/domain-events';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { IDomainEvent } from 'src/libs/shared-kernel/domain-events';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 export class DriverEndParking implements IDomainEvent {
   public readonly eventName = 'DriverEndParking';

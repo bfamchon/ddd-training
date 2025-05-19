@@ -1,5 +1,5 @@
-import { IDomainEvent } from 'src/shared/domain-events';
-import { Entity } from 'src/shared/entity';
+import { IDomainEvent } from 'src/libs/shared-kernel/domain-events';
+import { Entity } from 'src/libs/shared-kernel/entity';
 
 export abstract class AggregateRoot<T> extends Entity<T> {
   private _domainEvents: IDomainEvent[] = [];

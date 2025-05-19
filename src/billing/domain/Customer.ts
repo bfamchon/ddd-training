@@ -1,5 +1,5 @@
-import { Entity } from 'src/shared/entity';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { Entity } from 'src/libs/shared-kernel/entity';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 type CustomerProps = {
   id: UniqueEntityID;

@@ -1,7 +1,7 @@
+import { Err, Ok, Result } from 'src/libs/shared-kernel/result';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 import { ParkingNotFoundError } from 'src/parking/domain/errors/parking-not-found.error';
 import { ParkingRepository } from 'src/parking/infrastructure/parking-repository.port';
-import { Err, Ok, Result } from 'src/shared/result';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
 
 type Request = {
   driverId: UniqueEntityID;
@@ -13,7 +13,7 @@ type Response = Result<void, Error>;
 export class DriverParkEndUseCase {
   constructor(private parkingRepository: ParkingRepository) {}
 
-  async execute({ driverId, parkingId }: Request): Promise<Response> {
+  async execute({ parkingId }: Request): Promise<Response> {
     const parking = await this.parkingRepository.findById(parkingId);
     if (!parking) {
       return Err.of(new ParkingNotFoundError());

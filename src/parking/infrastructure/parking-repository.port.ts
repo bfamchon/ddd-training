@@ -1,5 +1,5 @@
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 import { Parking } from 'src/parking/domain/Parking';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
 
 export const PARKING_REPOSITORY = 'PARKING_REPOSITORY';
 export interface ParkingRepository {

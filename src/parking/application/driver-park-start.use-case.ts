@@ -1,10 +1,13 @@
+import { Err, Ok, Result } from 'src/libs/shared-kernel/result';
+import {
+  IDGenerator,
+  UniqueEntityID,
+} from 'src/libs/shared-kernel/unique-entity-id';
 import { ZoneNotFoundError } from 'src/parking/domain/errors/zone-not-found.error';
 import { Parking } from 'src/parking/domain/Parking';
 import { ZoneCoordinates } from 'src/parking/domain/ZoneCoordinates';
 import { ParkingRepository } from 'src/parking/infrastructure/parking-repository.port';
 import { ParkingZoneRepository } from 'src/parking/infrastructure/parking-zone-repository.port';
-import { Err, Ok, Result } from 'src/shared/result';
-import { IDGenerator, UniqueEntityID } from 'src/shared/unique-entity-id';
 
 type Request = {
   driverId: UniqueEntityID;

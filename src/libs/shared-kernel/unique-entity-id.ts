@@ -1,4 +1,4 @@
-import { Identifier } from 'src/shared/identifier';
+import { Identifier } from 'src/libs/shared-kernel/identifier';
 
 export class UniqueEntityID extends Identifier<string | number> {
   constructor(id?: string | number) {

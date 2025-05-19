@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { BillingService } from 'src/billing/application/billing.service';
+import { BillingService } from 'src/billing/application/billing-service';
 export const CRON_SERVICE = 'CRON_SERVICE';
 @Injectable()
 export class CronService {

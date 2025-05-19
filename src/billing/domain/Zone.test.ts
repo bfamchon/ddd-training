@@ -1,10 +1,10 @@
 import { EmptyZonePricingError } from 'src/billing/domain/errors/empty-zone-pricing.error';
 import { Hour } from 'src/billing/domain/Hour';
-import { Price } from 'src/billing/domain/Price';
 import { Zone } from 'src/billing/domain/Zone';
 import { ZonePricing } from 'src/billing/domain/ZonePricing';
-import { Duration } from 'src/shared/Duration';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { Duration } from 'src/libs/shared-kernel/Duration';
+import { Price } from 'src/libs/shared-kernel/Price';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 describe('Zone', () => {
   it('should calculate parking cost of 3 EUR', () => {

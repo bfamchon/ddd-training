@@ -1,6 +1,6 @@
 import { Zone } from 'src/billing/domain/Zone';
 import { BillingZoneRepository } from 'src/billing/infrastructure/billing-zone-repository.port';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 export class BillingZoneRepositoryInMemory implements BillingZoneRepository {
   zones: Zone[];

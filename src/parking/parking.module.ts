@@ -1,5 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
+import {
+  DomainEventBus,
+  I_DOMAIN_EVENT_BUS,
+} from 'src/libs/shared-kernel/domain-event-bus';
+import { RealDomainEventBus } from 'src/libs/shared-kernel/infrastructure/event-bus';
 import { PARKING_REPOSITORY } from 'src/parking/infrastructure/parking-repository.port';
 import { DriverParkEndUseCase } from './application/driver-leave.use-case';
 import { DriverParkUseCase } from './application/driver-park-start.use-case';
@@ -13,8 +18,14 @@ import { ParkingZoneRepositoryInMemory } from './infrastructure/parking-zone-rep
     DriverParkEndUseCase,
     {
       provide: PARKING_REPOSITORY,
+      inject: [I_DOMAIN_EVENT_BUS],
+      useFactory: (eventBus: DomainEventBus) =>
+        new ParkingRepositoryInMemory(eventBus),
+    },
+    {
+      provide: I_DOMAIN_EVENT_BUS,
       inject: [EventBus],
-      useFactory: (eventBus) => new ParkingRepositoryInMemory(eventBus),
+      useFactory: (eventBus: EventBus) => new RealDomainEventBus(eventBus),
     },
     {
       provide: 'ParkingZoneRepository',

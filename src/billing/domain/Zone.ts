@@ -1,9 +1,9 @@
 import { EmptyZonePricingError } from 'src/billing/domain/errors/empty-zone-pricing.error';
-import { Price } from 'src/billing/domain/Price';
 import { ZonePricing } from 'src/billing/domain/ZonePricing';
-import { Duration } from 'src/shared/Duration';
-import { Entity } from 'src/shared/entity';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
+import { Duration } from 'src/libs/shared-kernel/Duration';
+import { Entity } from 'src/libs/shared-kernel/entity';
+import { Price } from 'src/libs/shared-kernel/Price';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 
 type ZoneProps = {
   id: UniqueEntityID;

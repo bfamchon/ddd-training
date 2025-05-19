@@ -1,4 +1,4 @@
-import { ValueObject } from 'src/shared/value-object';
+import { ValueObject } from 'src/libs/shared-kernel/value-object';
 
 type PriceProps = {
   amount: number;
@@ -27,5 +27,15 @@ export class Price extends ValueObject<PriceProps> {
       throw new Error('Invalid currency code');
     }
     return new Price(price);
+  }
+
+  add(price: Price): Price {
+    if (this.currency !== price.currency) {
+      throw new Error('Cannot add prices with different currencies');
+    }
+    return Price.create({
+      amount: this.amount + price.amount,
+      currency: this.currency,
+    });
   }
 }

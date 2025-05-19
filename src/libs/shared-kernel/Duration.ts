@@ -1,4 +1,4 @@
-import { ValueObject } from 'src/shared/value-object';
+import { ValueObject } from 'src/libs/shared-kernel/value-object';
 
 type DurationProps = {
   milliseconds: number;

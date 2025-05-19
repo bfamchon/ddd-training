@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import {
   BillingService,
   I_BILLING_SERVICE,
-} from 'src/billing/application/billing.service';
+} from 'src/billing/application/billing-service';
 import {
   DRIVER_END_PARKING_HANDLER,
   DriverEndParkingHandler,
@@ -16,8 +16,6 @@ import {
   CRON_SERVICE,
   CronService,
 } from 'src/billing/infrastructure/cron.service';
-import { CustomerRepositoryInMemory } from 'src/billing/infrastructure/customer-repository.in-memory';
-import { CUSTOMER_REPOSITORY } from 'src/billing/infrastructure/customer-repository.port';
 import { EmailServiceFake } from 'src/billing/infrastructure/email-service.fake';
 import { EMAIL_SERVICE } from 'src/billing/infrastructure/email-service.port';
 
@@ -37,24 +35,9 @@ import { EMAIL_SERVICE } from 'src/billing/infrastructure/email-service.port';
     },
     {
       provide: I_BILLING_SERVICE,
-      inject: [
-        BILLING_ZONE_REPOSITORY,
-        BILLING_REPOSITORY,
-        CUSTOMER_REPOSITORY,
-        EMAIL_SERVICE,
-      ],
-      useFactory: (
-        billingZoneRepository,
-        billingRepository,
-        customerRepository,
-        emailService,
-      ) =>
-        new BillingService(
-          billingZoneRepository,
-          billingRepository,
-          customerRepository,
-          emailService,
-        ),
+      inject: [BILLING_ZONE_REPOSITORY, BILLING_REPOSITORY, EMAIL_SERVICE],
+      useFactory: (billingZoneRepository, billingRepository) =>
+        new BillingService(billingZoneRepository, billingRepository),
     },
     {
       provide: BILLING_ZONE_REPOSITORY,
@@ -63,10 +46,6 @@ import { EMAIL_SERVICE } from 'src/billing/infrastructure/email-service.port';
     {
       provide: BILLING_REPOSITORY,
       useClass: BillingRepositoryInMemory,
-    },
-    {
-      provide: CUSTOMER_REPOSITORY,
-      useClass: CustomerRepositoryInMemory,
     },
     {
       provide: EMAIL_SERVICE,

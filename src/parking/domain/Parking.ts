@@ -1,9 +1,9 @@
+import { AggregateRoot } from 'src/libs/shared-kernel/aggregate-root';
+import { Duration } from 'src/libs/shared-kernel/Duration';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
+import { DriverEndParking } from 'src/libs/shared-kernel/v1/events/DriverEndParking';
 import { ParkingAlreadyEndedError } from 'src/parking/domain/errors/parking-already-ended.error';
 import { ParkingNotEndedError } from 'src/parking/domain/errors/parking-not-ended.error';
-import { DriverEndParking } from 'src/parking/domain/events/DriverEndParking';
-import { AggregateRoot } from 'src/shared/aggregate-root';
-import { Duration } from 'src/shared/Duration';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
 
 type ParkingProps = {
   id: UniqueEntityID;

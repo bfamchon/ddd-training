@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { EventBus } from '@nestjs/cqrs';
+import { DomainEventBus } from 'src/libs/shared-kernel/domain-event-bus';
+import { UniqueEntityID } from 'src/libs/shared-kernel/unique-entity-id';
 import { Parking } from 'src/parking/domain/Parking';
-import { UniqueEntityID } from 'src/shared/unique-entity-id';
 import { ParkingRepository } from './parking-repository.port';
 
 @Injectable()
 export class ParkingRepositoryInMemory implements ParkingRepository {
   private parkings: Parking[];
 
-  constructor(private eventBus: EventBus) {
+  constructor(private eventBus: DomainEventBus) {
     this.parkings = [];
   }
   save(parking: Parking): Promise<void> {

@@ -1,6 +1,6 @@
 import { Hour } from 'src/billing/domain/Hour';
-import { Price } from 'src/billing/domain/Price';
-import { ValueObject } from 'src/shared/value-object';
+import { Price } from 'src/libs/shared-kernel/Price';
+import { ValueObject } from 'src/libs/shared-kernel/value-object';
 
 type ZonePricingProps = {
   priceUntilHour: Hour;
